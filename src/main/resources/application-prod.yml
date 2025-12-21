@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/PSMS_db
+    username: ${DB_USER:common_user}                # 环境变量注入，默认值兜底
+    password: ${DB_PASSWORD:common_user_pwd}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        # Hibernate 6+用PostgreSQLDialect，Hibernate 5+建议用PostgreSQL10Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  security:
+    user:
+      name: ${SEC_USER:user}
+      password: ${SEC_PWD:user_pwd}
+      roles: USER
+
+# 核心修正：server是顶级节点，与spring同级
+server:
+  port: 443
+  # 开发环境注释SSL配置，生产环境再启用（并补全配置）
+  ssl:
+     key-store: classpath:keystore.p12
+     key-store-type: PKCS12  # 必须指定PKCS12格式
+     key-store-password: ${SSL_KEY_PWD:asd7391919}
+
+crypto:
+  aes:
+    key: ${AES_KEY:} # 生产环境通过环境变量传入，例如：生成的Base64格式AES密钥
+  hmac:
+    key: ${HMAC_KEY:} # 生产环境通过环境变量传入，例如：生成的Base64格式HMAC密钥

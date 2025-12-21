@@ -1,0 +1,33 @@
+# 修正层级 + 补全SSL配置 + 环境变量注入敏感信息 + 恢复默认数据库端口
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/PSMS_db  # 恢复PostgreSQL默认端口5432
+    username: ${DB_USER:common_user}                # 环境变量注入，默认值兜底
+    password: ${DB_PASSWORD:common_user_pwd}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate  # 开发环境用update更便捷（自动更新表结构），生产改validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        # Hibernate 6+用PostgreSQLDialect，Hibernate 5+建议用PostgreSQL10Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  security:
+    user:
+      name: ${SEC_USER:user}
+      password: ${SEC_PWD:user_pwd}
+      roles: USER
+
+# 核心修正：server是顶级节点，与spring同级
+server:
+  port: 8080  # 开发环境改用HTTP端口，避免SSL复杂度和443端口权限问题
+  # 开发环境注释SSL配置，生产环境再启用（并补全配置）
+  # ssl:
+  #   key-store: classpath:keystore.p12
+  #   key-store-type: PKCS12  # 必须指定PKCS12格式
+  #   key-store-password: ${SSL_KEY_PWD:asd7391919}
+  #   key-alias: your-alias  # 补充密钥别名（若keystore中有多个证书）

@@ -43,8 +43,9 @@ mvn spring-boot:run
 除 `/api/owners` 外，所有接口均需 Basic Auth 认证。
 
 | 路由前缀 | 说明 |
-|---|---|
+|---|---|---|
 | `/api/owners` | 业主增删改查（公开接口） |
+| `/api/property` | 房产增删改查，支持按业主查询 `/owner/{oid}` |
 | `/api/charge_item` | 收费项目，创建时自动生成账单 |
 | `/api/bill` | 账单，支持按 `/property/{pid}/owner/{oid}[/unpaid]` 筛选 |
 | `/api/payment` | 缴费记录 |

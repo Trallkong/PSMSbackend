@@ -1,68 +1,72 @@
-# PSMSbackend – Property Management System Backend
+# PSMSbackend – 物业管理系统后端
 
-Property Management System backend built with Spring Boot 4.0.0, Java 17, and PostgreSQL.
+基于 Spring Boot 4.0.0、Java 17、PostgreSQL 的物业管理后端服务。
 
-## Tech Stack
+## 技术栈
 
 - **Spring Boot 4.0.0** / Java 17
-- **Spring Data JPA** — ORM with PostgreSQL
-- **Spring Security** — Basic Auth, stateless sessions
-- **PostgreSQL** — relational database
-- **Lombok** — boilerplate reduction
-- **Apache Commons Codec** — crypto utilities
+- **Spring Data JPA** — ORM，操作 PostgreSQL
+- **Spring Security** — Basic Auth 认证，无状态会话
+- **PostgreSQL** — 关系型数据库
+- **Lombok** — 简化样板代码
+- **Apache Commons Codec** — AES-GCM 加密 / HMAC-SHA256 签名
 
-## Architecture
+## 项目架构
 
 ```
 entity/ → repository/ (JPA) → service/ → controller/ (REST)
 ```
 
-## Quick Start
+## 快速开始
 
-### Prerequisites
+### 环境要求
 
-- JDK 17+ (recommended: JDK 21)
-- PostgreSQL running on `localhost:5432`
-- Database `PSMS_db` created
+- JDK 17+（推荐 JDK 21）
+- PostgreSQL 运行在 `localhost:5432`
+- 创建数据库 `PSMS_db`
 
-### Run
+### 启动
 
 ```bash
-# Development (port 8080, no SSL)
+# 开发环境（端口 8080，无 SSL）
 mvn spring-boot:run -Dspring.profiles.active=local
 
-# Production (port 443, SSL)
+# 生产环境（端口 443，SSL）
 mvn spring-boot:run -Dspring.profiles.active=prod
 
-# Default profile (hardcoded dev creds)
+# 默认配置（硬编码开发账号）
 mvn spring-boot:run
 ```
 
-## API Endpoints
+## API 接口
 
-All endpoints except `/api/owners` require Basic Auth.
+除 `/api/owners` 外，所有接口均需 Basic Auth 认证。
 
-| Prefix | Description |
+| 路由前缀 | 说明 |
 |---|---|
-| `/api/owners` | Owner CRUD (public) |
-| `/api/charge_item` | Charge items + auto bill generation on create |
-| `/api/bill` | Bills, filter by `/property/{pid}/owner/{oid}[/unpaid]` |
-| `/api/payment` | Payments |
-| `/api/payment_detail` | Payment details (updates bill amounts) |
-| `/api/staff` | Staff login `POST /login` |
-| `/api/dashboard` | Aggregates (unpaidSum, paidSum, overdueCount, ownerCount) |
-| `/api/crypto` | AES encrypt/decrypt, HMAC sign/verify, key generation |
+| `/api/owners` | 业主增删改查（公开接口） |
+| `/api/charge_item` | 收费项目，创建时自动生成账单 |
+| `/api/bill` | 账单，支持按 `/property/{pid}/owner/{oid}[/unpaid]` 筛选 |
+| `/api/payment` | 缴费记录 |
+| `/api/payment_detail` | 缴费明细（更新账单已缴金额） |
+| `/api/staff` | 员工登录 `POST /login` |
+| `/api/dashboard` | 数据看板（未缴总额、已缴总额、欠费户数、业主总数） |
+| `/api/crypto` | AES 加解密、HMAC 签名验签、密钥生成 |
 
-## Profiles
+## 环境配置
 
-| Profile | Port  | SSL | Credentials |
+| Profile | 端口 | SSL | 账号凭证 |
 |---|---|---|---|
-| `local` | 8080 | No | Env var fallback |
-| `prod`  | 443  | Yes (keystore.p12) | Env var required |
-| default | 8080 | No | Hardcoded dev |
+| `local` | 8080 | 无 | 环境变量，有默认值兜底 |
+| `prod`  | 443  | 有 (keystore.p12) | 环境变量，无默认值 |
+| 默认 | 8080 | 无 | 硬编码开发账号 |
 
-## Testing
+## 测试
 
 ```bash
 mvn clean test
 ```
+
+## 许可证
+
+[MIT](LICENSE)

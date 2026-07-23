@@ -18,14 +18,6 @@ public class GlobalExceptionHandler {
         Map<String, Object> response = new HashMap<>();
         response.put("error", e.getErrorCode());
         response.put("message", e.getMessage());
-
-        // 添加详细信息
-        Map<String, Object> details = new HashMap<>();
-        details.put("constraint", "fk_bill_item");
-        details.put("referencedTable", "bill");
-        details.put("referencingTable", "charge_item");
-        response.put("details", details);
-
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 

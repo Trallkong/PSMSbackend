@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -70,7 +71,8 @@ public class Bill extends BaseEntity {
     @JsonProperty("amount_paid")
     private BigDecimal amountPaid;
 
-    @Column(name = "amount_unpaid", insertable = false, updatable = false)
+    @Formula("COALESCE(amount_payable, 0) - COALESCE(amount_paid, 0)")
+    @Basic(fetch = FetchType.EAGER)
     @JsonProperty("amount_unpaid")
     private BigDecimal amountUnpaid;
 

@@ -1,1 +1,9 @@
-charge item 更新、删除对应的bill更新删除逻辑，抽象重复代码
+# DONE
+- [x] 抽象bill构建逻辑到 buildBill() 方法，复用与 add / update
+- [x] charge item 更新时自动级联更新未缴费账单的单价/金额
+- [x] charge item 删除时自动删除未缴费账单，已缴费则抛异常阻止
+- [x] 修复 PaymentService.addPayment() 中 paymentId null 拼接 bug
+- [x] 修复 Bill.amountUnpaid 使用 @Formula 自动计算 (amount_payable - amount_paid)
+- [x] 修复 GlobalExceptionHandler 硬编码约束名的问题
+- [x] 创建 graphql-client 目录避免 DGS codegen 插件崩溃
+- [x] 完善 AGENTS.md

@@ -23,4 +23,6 @@ public interface BillRepository extends JpaRepository<Bill, Long> {
     BigDecimal findAmountUnpaidByBillId(@Param("billId") Long billId);
 
     List<Bill> findByPropertyIdAndOwnerId(Integer propertyId, Integer ownerId);
+
+    List<Bill> findByItemId(Integer itemId);
 }

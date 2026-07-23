@@ -29,9 +29,8 @@ public class PaymentService {
 
     // 添加缴费信息
     public Payment addPayment(Payment payment) {
-        // 生成缴费编号
-        payment.setPaymentId(null);
-        payment.setPaymentNo("P" + System.currentTimeMillis() + payment.getPaymentId() + payment.getOwnerId());
+        // 生成缴费编号（ID由数据库自增，不能用于编号生成）
+        payment.setPaymentNo("P" + System.currentTimeMillis() + payment.getOwnerId());
 
         // 设置默认备注值，避免 null 值
         if (payment.getRemark() == null) {

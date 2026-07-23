@@ -72,7 +72,6 @@ public class Bill extends BaseEntity {
     private BigDecimal amountPaid;
 
     @Formula("COALESCE(amount_payable, 0) - COALESCE(amount_paid, 0)")
-    @Basic(fetch = FetchType.EAGER)
     @JsonProperty("amount_unpaid")
     private BigDecimal amountUnpaid;
 

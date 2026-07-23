@@ -44,5 +44,6 @@ public class Staff extends BaseEntity {
     private String username;
 
     @Column(name = "password", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 }
